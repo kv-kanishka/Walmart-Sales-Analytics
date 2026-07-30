@@ -161,14 +161,13 @@ FROM walmart
 GROUP BY city
 ORDER BY revenue DESC;
 
--- Q13: Find Top 5 Revenue Generating Branches. 
+-- Q13: Which branch has the highest average customer rating?
 SELECT
     branch,
-    ROUND(SUM(unit_price * quantity),2) AS revenue
+    ROUND(AVG(rating),2) AS avg_rating
 FROM walmart
 GROUP BY branch
-ORDER BY revenue DESC
-LIMIT 5;
+ORDER BY avg_rating DESC;
 
 -- Q14: Which Category Sold the Maximum Number of Items?
 SELECT
@@ -385,7 +384,7 @@ FROM walmart
 ORDER BY transaction_value DESC
 LIMIT 5;
 
--- Q29: Find the Top 5 Highest Value Transactions.
+-- Q29: Find the Most Profitable Category in Every Branch.
 WITH category_profit AS
 (
     SELECT
