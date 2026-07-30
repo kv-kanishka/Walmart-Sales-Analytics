@@ -227,7 +227,7 @@ FROM walmart
 GROUP BY payment_method
 ORDER BY total_revenue DESC;
 
--- Q21: Which Payment Method Generates the Highest Revenue?
+-- Q21: What Percentage of Total Revenue Comes from Each Category?
 SELECT
     category,
     ROUND(SUM(unit_price * quantity),2) AS revenue,
