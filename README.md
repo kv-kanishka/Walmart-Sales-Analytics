@@ -18,7 +18,7 @@ This project analyzes Walmart sales transactions to answer real-world business q
 
 ## Project Workflow
 
-![Project Pipeline](walmart_project-piplelines.png)
+[![Project Pipeline](walmart_project-piplelines.png)](https://chatgpt.com/s/m_6a6b8a23ef0081918be740ba1979030f)
 
 ---
 
