@@ -18,7 +18,8 @@ This project analyzes Walmart sales transactions to answer real-world business q
 
 ## Project Workflow
 
-[![Project Pipeline](walmart_project-piplelines.png)]
+<img width="1827" height="861" alt="ChatGPT Image Jul 30, 2026, 10_59_35 PM" src="https://github.com/user-attachments/assets/936c04a0-3dc2-4d99-958d-0b4de8f4bbb2" />
+
 
 ---
 
