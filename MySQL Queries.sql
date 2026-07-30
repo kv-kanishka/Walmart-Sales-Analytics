@@ -220,6 +220,74 @@ GROUP BY month_name
 ORDER BY revenue DESC
 LIMIT 1;
 
+-- Q20: Which Payment Method Generates the Highest Revenue?
+SELECT
+    payment_method,
+    ROUND(SUM(unit_price * quantity),2) AS total_revenue
+FROM walmart
+GROUP BY payment_method
+ORDER BY total_revenue DESC;
+
+-- Q21: Which Payment Method Generates the Highest Revenue?
+SELECT
+    category,
+    ROUND(SUM(unit_price * quantity),2) AS revenue,
+    ROUND(
+        SUM(unit_price * quantity) * 100 /
+        (SELECT SUM(unit_price * quantity) FROM walmart),
+        2
+    ) AS revenue_percentage
+FROM walmart
+GROUP BY category
+ORDER BY revenue_percentage DESC;
+
+-- Q22: Find the Top 3 Revenue-Generating Categories in Every Branch. 
+WITH revenue_cte AS
+(
+SELECT
+branch,
+category,
+ROUND(SUM(unit_price*quantity),2) AS revenue,
+RANK() OVER(
+PARTITION BY branch
+ORDER BY SUM(unit_price*quantity) DESC
+) AS ranking
+FROM walmart
+GROUP BY branch,category
+)
+SELECT
+branch,
+category,
+revenue
+FROM revenue_cte
+WHERE ranking<=3
+ORDER BY branch,revenue DESC;
+
+-- Q23: Which Branches Generate Above-Average Revenue?
+WITH branch_revenue AS (
+    SELECT
+        branch,
+        SUM(unit_price * quantity) AS revenue
+    FROM walmart
+    GROUP BY branch
+)
+SELECT
+    branch,
+    revenue
+FROM branch_revenue
+WHERE revenue > (
+    SELECT AVG(revenue)
+    FROM branch_revenue
+)
+ORDER BY revenue DESC;
+
+-- Q24: Which Branches Generate Above-Average Revenue?
+
+
+
+
+
+
 
 
 
