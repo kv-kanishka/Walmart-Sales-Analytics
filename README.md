@@ -88,19 +88,28 @@ Generated meaningful insights that can help businesses understand:
 
 ## Business Problems Solved
 
-The project answers several business questions, including:
+The project solves **30 real-world business problems** covering various aspects of retail sales analytics, including:
 
-- Analyze payment methods and sales performance.
-- Identify the highest-rated product category in each branch.
-- Determine the busiest day for each branch.
-- Calculate total quantity sold by payment method.
-- Analyze category ratings across different cities.
-- Calculate total profit by product category.
-- Identify the most common payment method in each branch.
-- Analyze sales across different shifts.
-- Identify branches with the highest revenue decline year-over-year.
-
----
+- Payment method analysis
+- Revenue analysis
+- Profitability analysis
+- Customer rating analysis
+- Branch performance analysis
+- City-wise sales analysis
+- Product category performance
+- Sales trend analysis
+- Monthly revenue growth
+- Customer purchasing behavior
+- Peak shopping hours
+- Revenue contribution analysis
+- Top-performing categories
+- Above-average performance analysis
+- Running revenue analysis
+- Month-over-month growth analysis
+- High-value transaction analysis
+- Branch-wise profitability
+- Best-performing months
+- Business KPI reporting using SQL
 
 ## Repository Structure
 
