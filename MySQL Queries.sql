@@ -137,7 +137,15 @@ WHERE r2022.revenue > r2023.revenue
 ORDER BY revenue_decrease_ratio DESC
 LIMIT 5;
 
--- Q10: Which Branch Generates the Highest Revenue?
+-- Q10: Which Product Category Generates the Highest Revenue?
+SELECT
+    category,
+    ROUND(SUM(unit_price * quantity),2) AS total_revenue
+FROM walmart
+GROUP BY category
+ORDER BY total_revenue DESC;
+
+-- Q11: Which Branch Generates the Highest Revenue?
 SELECT
     branch,
     ROUND(SUM(unit_price * quantity),2) AS revenue
@@ -145,7 +153,7 @@ FROM walmart
 GROUP BY branch
 ORDER BY revenue DESC;
 
--- Q11: Which city Generates the Highest Revenue?
+-- Q12: Which City Generates the Highest Revenue?
 SELECT
     city,
     ROUND(SUM(unit_price * quantity),2) AS revenue
@@ -153,7 +161,7 @@ FROM walmart
 GROUP BY city
 ORDER BY revenue DESC;
 
--- Q12: Find Top 5 Revenue Generating Branches. 
+-- Q13: Find Top 5 Revenue Generating Branches. 
 SELECT
     branch,
     ROUND(SUM(unit_price * quantity),2) AS revenue
@@ -162,12 +170,59 @@ GROUP BY branch
 ORDER BY revenue DESC
 LIMIT 5;
 
--- Q13: Which Category Sold the Maximum Number of Items?
+-- Q14: Which Category Sold the Maximum Number of Items?
 SELECT
     category,
     SUM(quantity) AS total_quantity
 FROM walmart
 GROUP BY category
 ORDER BY total_quantity DESC;
+
+-- Q15: What is the Average Order Value (AOV) for Each Branch?
+SELECT
+    branch,
+    ROUND(SUM(unit_price * quantity)/COUNT(invoice_id),2) AS avg_order_value
+FROM walmart
+GROUP BY branch
+ORDER BY avg_order_value DESC;
+
+-- Q16: Which Hour Receives the Maximum Number of Orders?
+SELECT
+    HOUR(TIME(time)) AS sales_hour,
+    COUNT(*) AS total_orders
+FROM walmart
+GROUP BY sales_hour
+ORDER BY total_orders DESC;
+
+-- Q17: Which Hour Generates the Highest Revenue?
+SELECT
+    HOUR(TIME(time)) AS sales_hour,
+    ROUND(SUM(unit_price * quantity),2) AS revenue
+FROM walmart
+GROUP BY sales_hour
+ORDER BY revenue DESC;
+
+-- Q18: How does revenue change every month?
+SELECT
+    MONTHNAME(STR_TO_DATE(date,'%d/%m/%Y')) AS month_name,
+    MONTH(STR_TO_DATE(date,'%d/%m/%Y')) AS month_no,
+    ROUND(SUM(unit_price * quantity),2) AS revenue
+FROM walmart
+GROUP BY month_no, month_name
+ORDER BY month_no;
+
+-- Q19: Which Month Generated the Highest Revenue?
+SELECT
+    MONTHNAME(STR_TO_DATE(date,'%d/%m/%Y')) AS month_name,
+    ROUND(SUM(unit_price * quantity),2) AS revenue
+FROM walmart
+GROUP BY month_name
+ORDER BY revenue DESC
+LIMIT 1;
+
+
+
+
+
 
 
