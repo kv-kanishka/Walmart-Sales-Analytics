@@ -281,7 +281,55 @@ WHERE revenue > (
 )
 ORDER BY revenue DESC;
 
--- Q24: Which Branches Generate Above-Average Revenue?
+-- Q24: Which Categories Have an Above-Average Customer Rating?
+WITH category_rating AS (
+    SELECT
+        category,
+        ROUND(AVG(rating),2) AS avg_rating
+    FROM walmart
+    GROUP BY category
+)
+SELECT
+    category,
+    avg_rating
+FROM category_rating
+WHERE avg_rating >
+(
+    SELECT AVG(avg_rating)
+    FROM category_rating
+)
+ORDER BY avg_rating DESC;
+
+-- Q25: Which Categories Generate High Revenue but Receive Low Customer Ratings?
+WITH category_summary AS (
+    SELECT
+        category,
+        SUM(unit_price * quantity) AS revenue,
+        ROUND(AVG(rating),2) AS avg_rating
+    FROM walmart
+    GROUP BY category
+)
+SELECT
+    category,
+    ROUND(revenue,2) AS revenue,
+    avg_rating
+FROM category_summary
+WHERE revenue >
+(
+    SELECT AVG(revenue)
+    FROM category_summary
+)
+AND avg_rating <
+(
+    SELECT AVG(avg_rating)
+    FROM category_summary
+)
+ORDER BY revenue DESC;
+
+-- Q26: Which Categories Generate High Revenue but Receive Low Customer Ratings?
+
+
+
 
 
 
