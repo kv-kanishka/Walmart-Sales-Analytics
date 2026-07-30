@@ -136,3 +136,38 @@ JOIN revenue_2023 AS r2023 ON r2022.branch = r2023.branch
 WHERE r2022.revenue > r2023.revenue
 ORDER BY revenue_decrease_ratio DESC
 LIMIT 5;
+
+-- Q10: Which Branch Generates the Highest Revenue?
+SELECT
+    branch,
+    ROUND(SUM(unit_price * quantity),2) AS revenue
+FROM walmart
+GROUP BY branch
+ORDER BY revenue DESC;
+
+-- Q11: Which city Generates the Highest Revenue?
+SELECT
+    city,
+    ROUND(SUM(unit_price * quantity),2) AS revenue
+FROM walmart
+GROUP BY city
+ORDER BY revenue DESC;
+
+-- Q12: Find Top 5 Revenue Generating Branches. 
+SELECT
+    branch,
+    ROUND(SUM(unit_price * quantity),2) AS revenue
+FROM walmart
+GROUP BY branch
+ORDER BY revenue DESC
+LIMIT 5;
+
+-- Q13: Which Category Sold the Maximum Number of Items?
+SELECT
+    category,
+    SUM(quantity) AS total_quantity
+FROM walmart
+GROUP BY category
+ORDER BY total_quantity DESC;
+
+
