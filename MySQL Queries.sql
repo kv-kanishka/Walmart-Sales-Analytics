@@ -326,7 +326,117 @@ AND avg_rating <
 )
 ORDER BY revenue DESC;
 
--- Q26: Which Categories Generate High Revenue but Receive Low Customer Ratings?
+-- Q26: Find the Month-over-Month Revenue Growth.
+WITH monthly_revenue AS
+(
+    SELECT
+        MONTH(STR_TO_DATE(date,'%d/%m/%Y')) AS month_no,
+        MONTHNAME(STR_TO_DATE(date,'%d/%m/%Y')) AS month_name,
+        SUM(unit_price * quantity) AS revenue
+    FROM walmart
+    GROUP BY month_no, month_name
+)
+SELECT
+    month_name,
+    ROUND(revenue,2) AS revenue,
+    ROUND(
+        LAG(revenue) OVER(ORDER BY month_no),
+        2
+    ) AS previous_month_revenue,
+    ROUND(
+        (
+            (revenue - LAG(revenue) OVER(ORDER BY month_no))
+            /
+            LAG(revenue) OVER(ORDER BY month_no)
+        ) *100,
+        2
+    ) AS growth_percentage
+FROM monthly_revenue;
+
+-- Q27: Find the Running (Cumulative) Revenue by Month. 
+WITH monthly_revenue AS
+(
+    SELECT
+        MONTH(STR_TO_DATE(date,'%d/%m/%Y')) AS month_no,
+        MONTHNAME(STR_TO_DATE(date,'%d/%m/%Y')) AS month_name,
+        SUM(unit_price * quantity) AS revenue
+    FROM walmart
+    GROUP BY month_no, month_name
+)
+SELECT
+    month_name,
+    ROUND(revenue,2) AS revenue,
+    ROUND(
+        SUM(revenue)
+        OVER(
+            ORDER BY month_no
+        ),
+        2
+    ) AS running_revenue
+FROM monthly_revenue;
+
+-- Q28: Find the Top 5 Highest Value Transactions.
+SELECT
+    invoice_id,
+    branch,
+    category,
+    ROUND(unit_price * quantity,2) AS transaction_value
+FROM walmart
+ORDER BY transaction_value DESC
+LIMIT 5;
+
+-- Q29: Find the Top 5 Highest Value Transactions.
+WITH category_profit AS
+(
+    SELECT
+        branch,
+        category,
+        ROUND(SUM(unit_price * quantity * profit_margin),2) AS total_profit,
+        RANK() OVER(
+            PARTITION BY branch
+            ORDER BY SUM(unit_price * quantity * profit_margin) DESC
+        ) AS ranking
+    FROM walmart
+    GROUP BY branch, category
+)
+SELECT
+    branch,
+    category,
+    total_profit
+FROM category_profit
+WHERE ranking = 1
+ORDER BY branch;
+
+-- Q30: Find the Best Performing Month for Every Branch.
+WITH monthly_revenue AS
+(
+    SELECT
+        branch,
+        MONTH(STR_TO_DATE(date,'%d/%m/%Y')) AS month_no,
+        MONTHNAME(STR_TO_DATE(date,'%d/%m/%Y')) AS month_name,
+        SUM(unit_price * quantity) AS revenue,
+        RANK() OVER(
+            PARTITION BY branch
+            ORDER BY SUM(unit_price * quantity) DESC
+        ) AS ranking
+    FROM walmart
+    GROUP BY
+        branch,
+        month_no,
+        month_name
+)
+SELECT
+    branch,
+    month_name,
+    ROUND(revenue,2) AS revenue
+FROM monthly_revenue
+WHERE ranking = 1
+ORDER BY branch;
+
+
+
+
+
 
 
 
